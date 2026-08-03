@@ -1,0 +1,22 @@
+<?php
+
+echo "Digite o valor de A: ";
+$a = readline();
+
+echo "Digite o valor de B: ";
+$b = readline();
+
+echo "\nValores originais:\n";
+echo "A = $a\n";
+echo "B = $b\n";
+
+// Fazendo a troca dos valores
+$temp = $a;
+$a = $b;
+$b = $temp;
+
+echo "\nValores após a troca:\n";
+echo "A = $a\n";
+echo "B = $b\n";
+
+?>
