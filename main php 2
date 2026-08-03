@@ -1,0 +1,16 @@
+<?php
+
+echo "Digite a primeira nota: ";
+$nota1 = (float) readline();
+
+echo "Digite a segunda nota: ";
+$nota2 = (float) readline();
+
+echo "Digite a terceira nota: ";
+$nota3 = (float) readline();
+
+$media = ($nota1 + $nota2 + $nota3) / 3;
+
+echo "A média do aluno é: " . number_format($media, 2) . "\n";
+
+?>
