@@ -1,0 +1,18 @@
+<?php
+
+$produtos = [
+    "Conjunto de Baby Doll" => 129.90,
+    "Calça Cargo" => 149.90,
+    "Tênis Jordan 4" => 249.90,
+    "Camiseta Oversized" => 89.90,
+    "Moletom Canguru" => 179.90,
+    "Boné New Era" => 99.90,
+    "Jaqueta Jeans" => 199.90,
+    "Shorts Jeans" => 79.90
+];
+
+foreach ($produtos as $nome => $preco) {
+    echo "O produto " . $nome . " custa R$ " . $preco . PHP_EOL;
+}
+
+?>
