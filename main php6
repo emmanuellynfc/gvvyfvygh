@@ -1,0 +1,7 @@
+<?php
+$tentativa = 1; 
+do{
+    echo "Tentativa numero:$tentativa.\n";
+    $tentativa++;
+}
+while($tentativa <= 3);
