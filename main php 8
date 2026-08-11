@@ -1,0 +1,19 @@
+<?php
+
+$numeros = [10, 20, 30, 40, 50];
+
+$soma = 0;
+foreach ($numeros as $numero) {
+    $soma += $numero;
+}
+echo "Soma (com laço): $soma\n";
+
+$media = $soma / count($numeros);
+echo "Média: $media\n";
+
+$somaNativa = array_sum($numeros);
+$mediaNativa = $somaNativa / count($numeros);
+echo "\n--- Desafio Extra --- \n";
+echo "Soma (array_sum): $somaNativa\n";
+echo "Média: $mediaNativa\n";
+?>
