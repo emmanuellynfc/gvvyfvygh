@@ -1,0 +1,19 @@
+<?php
+
+$linguagens = ["PHP", "JavaScript", "Python", "Java", "C++"];
+
+echo "Primeira linguagem: " . $linguagens[0] . "\n";
+$ultimoIndice = count($linguagens) - 1;
+echo "Última linguagem: " . $linguagens[$ultimoIndice] . "\n";
+
+echo "-----------------\n";
+
+$linguagens[] = "Ruby";
+
+$totalElementos = count($linguagens);
+echo "Total de linguagens no array: " . $totalElementos . "\n";
+
+echo "Nova lista de linguagens:\n";
+print_r($linguagens);
+
+?>
