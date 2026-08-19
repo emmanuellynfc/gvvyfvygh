@@ -1,0 +1,38 @@
+<?php
+
+class Produto
+{
+    public string $nome;
+    public float $preco;
+    public int $quantidade;
+
+    public function calcularTotal(): float
+    {
+        return $this->preco * $this->quantidade;
+    }
+}
+
+$produto1 = new Produto();
+$produto1->nome = "Notebook";
+$produto1->preco = 3000.00;
+$produto1->quantidade = 5;
+
+$produto2 = new Produto();
+$produto2->nome = "Mouse";
+$produto2->preco = 80.00;
+$produto2->quantidade = 10;
+
+$produto3 = new Produto();
+$produto3->nome = "Teclado";
+$produto3->preco = 150.00;
+$produto3->quantidade = 8;
+
+$produto4 = new Produto();
+$produto4->nome = "Monitor";
+$produto4->preco = 1200.00;
+$produto4->quantidade = 4;
+
+echo $produto1->nome . " - Total: R$ " . $produto1->calcularTotal() . PHP_EOL;
+echo $produto2->nome . " - Total: R$ " . $produto2->calcularTotal() . PHP_EOL;
+echo $produto3->nome . " - Total: R$ " . $produto3->calcularTotal() . PHP_EOL;
+echo $produto4->nome . " - Total: R$ " . $produto4->calcularTotal() . PHP_EOL;
