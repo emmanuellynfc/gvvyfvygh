@@ -1,0 +1,199 @@
+<?php
+
+class Produto
+{
+    private string $nome;
+    private float $preco;
+
+    public function __construct(string $nome, float $preco)
+    {
+        $this->nome = $nome;
+        $this->preco = $preco;
+    }
+
+    public function getNome(): string
+    {
+        return $this->nome;
+    }
+
+    public function getPreco(): float
+    {
+        return $this->preco;
+    }
+}
+
+
+class ItemPedido
+{
+    private Produto $produto;
+    private int $quantidade;
+    private float $precoUnitario;
+
+    public function __construct(
+        Produto $produto,
+        int $quantidade,
+        float $precoUnitario
+    ) {
+        $this->produto = $produto;
+        $this->quantidade = $quantidade;
+        $this->precoUnitario = $precoUnitario;
+    }
+
+    public function getProduto(): Produto
+    {
+        return $this->produto;
+    }
+
+    public function getQuantidade(): int
+    {
+        return $this->quantidade;
+    }
+
+    public function getPrecoUnitario(): float
+    {
+        return $this->precoUnitario;
+    }
+
+    public function calcularSubtotal(): float
+    {
+        return $this->quantidade * $this->precoUnitario;
+    }
+}
+
+
+class Pedido
+{
+    private array $itens = [];
+
+    public function adicionarItem(
+        Produto $produto,
+        int $qtd,
+        float $preco
+    ): void {
+        $item = new ItemPedido($produto, $qtd, $preco);
+
+        $this->itens[] = $item;
+    }
+
+    public function exibirResumo(): void
+    {
+        echo PHP_EOL;
+        echo "===== RESUMO DO PEDIDO =====" . PHP_EOL;
+
+        if (empty($this->itens)) {
+            echo "Nenhum item no pedido." . PHP_EOL;
+            return;
+        }
+
+        $total = 0;
+
+        foreach ($this->itens as $item) {
+
+            $produto = $item->getProduto();
+
+            echo "Produto: " . $produto->getNome() . PHP_EOL;
+            echo "Quantidade: " . $item->getQuantidade() . PHP_EOL;
+
+            echo "Preço unitário: R$ "
+                . number_format(
+                    $item->getPrecoUnitario(),
+                    2,
+                    ',',
+                    '.'
+                )
+                . PHP_EOL;
+
+            echo "Subtotal: R$ "
+                . number_format(
+                    $item->calcularSubtotal(),
+                    2,
+                    ',',
+                    '.'
+                )
+                . PHP_EOL;
+
+            echo "------------------------" . PHP_EOL;
+
+            $total += $item->calcularSubtotal();
+        }
+
+        echo "TOTAL DO PEDIDO: R$ "
+            . number_format($total, 2, ',', '.')
+            . PHP_EOL;
+    }
+}
+
+
+// Produtos
+$produto1 = new Produto("Notebook", 3500.00);
+$produto2 = new Produto("Mouse", 100.00);
+$produto3 = new Produto("Teclado", 250.00);
+
+
+// Criando o pedido
+$pedido = new Pedido();
+
+
+// Menu interativo
+do {
+    echo PHP_EOL;
+    echo "===== PEDIDO =====" . PHP_EOL;
+    echo "1 - Adicionar Notebook" . PHP_EOL;
+    echo "2 - Adicionar Mouse" . PHP_EOL;
+    echo "3 - Adicionar Teclado" . PHP_EOL;
+    echo "4 - Exibir resumo" . PHP_EOL;
+    echo "0 - Sair" . PHP_EOL;
+
+    $opcao = readline("Escolha uma opção: ");
+
+    switch ($opcao) {
+
+        case "1":
+            $qtd = (int) readline("Quantidade de Notebooks: ");
+
+            $pedido->adicionarItem(
+                $produto1,
+                $qtd,
+                $produto1->getPreco()
+            );
+
+            echo "Notebook adicionado ao pedido!" . PHP_EOL;
+            break;
+
+        case "2":
+            $qtd = (int) readline("Quantidade de Mouses: ");
+
+            $pedido->adicionarItem(
+                $produto2,
+                $qtd,
+                $produto2->getPreco()
+            );
+
+            echo "Mouse adicionado ao pedido!" . PHP_EOL;
+            break;
+
+        case "3":
+            $qtd = (int) readline("Quantidade de Teclados: ");
+
+            $pedido->adicionarItem(
+                $produto3,
+                $qtd,
+                $produto3->getPreco()
+            );
+
+            echo "Teclado adicionado ao pedido!" . PHP_EOL;
+            break;
+
+        case "4":
+            $pedido->exibirResumo();
+            break;
+
+        case "0":
+            echo "Pedido encerrado." . PHP_EOL;
+            break;
+
+        default:
+            echo "Opção inválida!" . PHP_EOL;
+    }
+
+} while ($opcao != "0");
