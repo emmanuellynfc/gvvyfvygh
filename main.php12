@@ -1,0 +1,95 @@
+<?php
+
+interface Notificacao
+{
+    public function enviar(string $mensagem): void;
+}
+
+
+class NotificacaoEmail implements Notificacao
+{
+    public function enviar(string $mensagem): void
+    {
+        echo "Enviando E-mail: " . $mensagem . PHP_EOL;
+    }
+}
+
+
+class NotificacaoSMS implements Notificacao
+{
+    public function enviar(string $mensagem): void
+    {
+        echo "Enviando SMS: " . $mensagem . PHP_EOL;
+    }
+}
+
+
+class NotificacaoWhatsApp implements Notificacao
+{
+    public function enviar(string $mensagem): void
+    {
+        echo "Enviando WhatsApp: " . $mensagem . PHP_EOL;
+    }
+}
+
+
+class NotificacaoFactory
+{
+    public static function criar(string $tipo): Notificacao
+    {
+        switch (strtolower($tipo)) {
+
+            case "email":
+                return new NotificacaoEmail();
+
+            case "sms":
+                return new NotificacaoSMS();
+
+            case "whatsapp":
+                return new NotificacaoWhatsApp();
+
+            default:
+                throw new Exception("Tipo de notificação inválido!");
+        }
+    }
+}
+
+
+echo "===== SISTEMA DE NOTIFICAÇÕES =====" . PHP_EOL;
+
+echo "1 - E-mail" . PHP_EOL;
+echo "2 - SMS" . PHP_EOL;
+echo "3 - WhatsApp" . PHP_EOL;
+
+$opcao = readline("Escolha o tipo de notificação: ");
+
+$mensagem = readline("Digite a mensagem: ");
+
+try {
+
+    switch ($opcao) {
+
+        case "1":
+            $tipo = "email";
+            break;
+
+        case "2":
+            $tipo = "sms";
+            break;
+
+        case "3":
+            $tipo = "whatsapp";
+            break;
+
+        default:
+            throw new Exception("Opção inválida!");
+    }
+
+    $notificacao = NotificacaoFactory::criar($tipo);
+
+    $notificacao->enviar($mensagem);
+
+} catch (Exception $e) {
+
+    echo "Erro: " . $e->getMessage() . PHP_EOL;
+}
