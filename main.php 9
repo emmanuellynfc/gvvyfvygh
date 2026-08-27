@@ -1,0 +1,146 @@
+<?php
+
+class Produto
+{
+    private string $nome;
+    private float $preco;
+
+    public function __construct(string $nome, float $preco)
+    {
+        $this->nome = $nome;
+        $this->preco = $preco;
+    }
+
+    public function getNome(): string
+    {
+        return $this->nome;
+    }
+
+    public function getPreco(): float
+    {
+        return $this->preco;
+    }
+}
+
+class CarrinhoDeCompras
+{
+    private array $produtos = [];
+
+    public function adicionarProduto(Produto $p): void
+    {
+        $this->produtos[] = $p;
+    }
+
+    public function removerProduto(string $nome): void
+    {
+        foreach ($this->produtos as $indice => $produto) {
+            if ($produto->getNome() === $nome) {
+                unset($this->produtos[$indice]);
+                $this->produtos = array_values($this->produtos);
+                echo "Produto removido com sucesso!" . PHP_EOL;
+                return;
+            }
+        }
+
+        echo "Produto não encontrado no carrinho!" . PHP_EOL;
+    }
+
+    public function calcularTotalGeral(): float
+    {
+        $total = 0;
+
+        foreach ($this->produtos as $produto) {
+            $total += $produto->getPreco();
+        }
+
+        return $total;
+    }
+
+    public function listarProdutos(): void
+    {
+        if (empty($this->produtos)) {
+            echo "Carrinho vazio!" . PHP_EOL;
+            return;
+        }
+
+        echo "Produtos no carrinho:" . PHP_EOL;
+
+        foreach ($this->produtos as $produto) {
+            echo "- " . $produto->getNome()
+                . " | R$ " . number_format($produto->getPreco(), 2, ',', '.')
+                . PHP_EOL;
+        }
+    }
+}
+
+
+
+$produto1 = new Produto("Notebook", 3500.00);
+$produto2 = new Produto("Mouse", 100.00);
+$produto3 = new Produto("Teclado", 250.00);
+
+$carrinho = new CarrinhoDeCompras();
+
+do {
+    echo PHP_EOL;
+    echo "===== CARRINHO DE COMPRAS =====" . PHP_EOL;
+    echo "1 - Adicionar Notebook" . PHP_EOL;
+    echo "2 - Adicionar Mouse" . PHP_EOL;
+    echo "3 - Adicionar Teclado" . PHP_EOL;
+    echo "4 - Remover produto" . PHP_EOL;
+    echo "5 - Listar produtos" . PHP_EOL;
+    echo "6 - Calcular total" . PHP_EOL;
+    echo "7 - Verificar se o Mouse continua existindo" . PHP_EOL;
+    echo "0 - Sair" . PHP_EOL;
+
+    $opcao = readline("Escolha uma opção: ");
+
+    switch ($opcao) {
+
+        case "1":
+            $carrinho->adicionarProduto($produto1);
+            echo "Notebook adicionado!" . PHP_EOL;
+            break;
+
+        case "2":
+            $carrinho->adicionarProduto($produto2);
+            echo "Mouse adicionado!" . PHP_EOL;
+            break;
+
+        case "3":
+            $carrinho->adicionarProduto($produto3);
+            echo "Teclado adicionado!" . PHP_EOL;
+            break;
+
+        case "4":
+            $nome = readline("Digite o nome do produto: ");
+            $carrinho->removerProduto($nome);
+            break;
+
+        case "5":
+            $carrinho->listarProdutos();
+            break;
+
+        case "6":
+            echo "Total: R$ "
+                . number_format($carrinho->calcularTotalGeral(), 2, ',', '.')
+                . PHP_EOL;
+            break;
+
+        case "7":
+            echo "O produto ainda existe!" . PHP_EOL;
+            echo "Nome: " . $produto2->getNome() . PHP_EOL;
+            echo "Preço: R$ "
+                . number_format($produto2->getPreco(), 2, ',', '.')
+                . PHP_EOL;
+            break;
+
+        case "0":
+            echo "Programa encerrado." . PHP_EOL;
+            break;
+
+        default:
+            echo "Opção inválida!" . PHP_EOL;
+    }
+
+} while ($opcao != "0");
