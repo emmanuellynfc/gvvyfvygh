@@ -1,0 +1,104 @@
+<?php
+
+interface EstrategiaDesconto
+{
+    public function calcular(float $valor): float;
+}
+
+
+class DescontoAniversario implements EstrategiaDesconto
+{
+    public function calcular(float $valor): float
+    {
+        return $valor * 0.15;
+    }
+}
+
+
+class DescontoBlackFriday implements EstrategiaDesconto
+{
+    public function calcular(float $valor): float
+    {
+        return $valor * 0.30;
+    }
+}
+
+
+class SemDesconto implements EstrategiaDesconto
+{
+    public function calcular(float $valor): float
+    {
+        return 0;
+    }
+}
+
+
+class Venda
+{
+    private float $valor;
+    private EstrategiaDesconto $estrategia;
+
+    public function __construct(
+        float $valor,
+        EstrategiaDesconto $estrategia
+    ) {
+        $this->valor = $valor;
+        $this->estrategia = $estrategia;
+    }
+
+    public function setEstrategia(EstrategiaDesconto $estrategia): void
+    {
+        $this->estrategia = $estrategia;
+    }
+
+    public function calcularValorFinal(): float
+    {
+        $desconto = $this->estrategia->calcular($this->valor);
+
+        return $this->valor - $desconto;
+    }
+}
+
+
+echo "===== CALCULADORA DE DESCONTOS =====" . PHP_EOL;
+
+$valor = (float) readline("Digite o valor da venda: R$ ");
+
+echo PHP_EOL;
+echo "Escolha o tipo de desconto:" . PHP_EOL;
+echo "1 - Desconto de Aniversário (15%)" . PHP_EOL;
+echo "2 - Desconto Black Friday (30%)" . PHP_EOL;
+echo "3 - Sem desconto (0%)" . PHP_EOL;
+
+$opcao = readline("Escolha uma opção: ");
+
+switch ($opcao) {
+
+    case "1":
+        $estrategia = new DescontoAniversario();
+        break;
+
+    case "2":
+        $estrategia = new DescontoBlackFriday();
+        break;
+
+    case "3":
+        $estrategia = new SemDesconto();
+        break;
+
+    default:
+        echo "Opção inválida!" . PHP_EOL;
+        exit;
+}
+
+
+$venda = new Venda($valor, $estrategia);
+
+echo PHP_EOL;
+echo "Valor da venda: R$ "
+    . number_format($valor, 2, ',', '.')
+    . PHP_EOL;
+
+echo "Valor final: R$ "
+    . number_format($venda->calcularValorFinal(), 2, ',', '.')
+    . PHP_EOL;
