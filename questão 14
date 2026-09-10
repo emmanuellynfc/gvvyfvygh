@@ -1,0 +1,12 @@
+nomes =[]
+
+for i in range(10):
+    nome = input("Digite um nome: ")
+    nomes.append(nome)
+    
+busca = input("Digite o nome que deseja procurar: ")
+
+if busca in nomes:
+    print("Nome encontrado!")
+else:
+    print("Nome não encontrado")
